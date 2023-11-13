@@ -18,16 +18,13 @@ pipeline {
         sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn clean package'
       }
     }
-    stage('SonarQube Analysis') {
-                steps {
-                    script {
-                        def scannerHome = tool 'SonarScanner';
-                            withSonarQubeEnv() {
-                            sh "${scannerHome}/bin/sonar-scanner"
-                            }
-                    }
-                }
+    stage('SonarQube analysis') {
+        steps {
+            withSonarQubeEnv('http://localhost:9000') {
+                bat 'mvn sonar:sonar'
             }
+        }
+    }
 
     stage('Build and Push Docker Image') {
       environment {
