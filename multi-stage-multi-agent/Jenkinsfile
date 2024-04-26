@@ -7,6 +7,7 @@ pipeline {
       }
       steps {
         sh 'mvn --version'
+        // Add any Maven build steps here
       }
     }
     stage('Front-end') {
@@ -15,6 +16,19 @@ pipeline {
       }
       steps {
         sh 'node --version'
+        // Add any Node.js build steps here
+      }
+    }
+    stage('Deploy to Kubernetes') {
+      environment {
+        KUBECONFIG = '/home/ashokvm/.minikube/config'
+      }
+      steps {
+        script {
+          // Example: Use kubectl to apply Kubernetes manifests
+          sh 'kubectl apply -f /Jenkins-Zero-To-Hero/multi-stage-multi-agent/deployment.yml'
+          // You may need to replace '/path/to/your/kubernetes/manifests' with the actual path to your Kubernetes manifest files
+        }
       }
     }
   }
