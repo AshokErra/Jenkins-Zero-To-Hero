@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: multistageapp
+spec:
+  replicas: 3  # Adjust the number of replicas as needed
+  selector:
+    matchLabels:
+      app: multistageapp
+  template:
+    metadata:
+      labels:
+        app: multistageapp
+    spec:
+      containers:
+      - name: backend
+        image: maven:3.8.1-adoptopenjdk-11  # Replace with your backend Docker image and tag
+        ports:
+        - containerPort: 8080  # Adjust the port if your backend listens on a different port
+      - name: frontend
+        image: node:16-alpine  # Replace with your frontend Docker image and tag
+        ports:
+        - containerPort: 3000  # Adjust the port if your frontend listens on a different port
